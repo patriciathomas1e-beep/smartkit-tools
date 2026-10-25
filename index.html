@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SmartKit Tools - Free Online Calculators & Image Tools</title>
+
+<meta name="description" content="Use free online tools from SmartKit Tools, including a GPA and CGPA calculator, percentage calculator, word counter, image compressor, and passport photo resizer.">
+
+<meta name="robots" content="index, follow">
+
+<meta name="theme-color" content="#2563eb">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="script.js" defer></script>
+
+</head>
+
+<body>
+
+  <header class="site-header">
+
+    <a class="brand" href="index.html" aria-label="SmartKit Tools home">
+
+      <span class="brand-icon">S</span>
+
+      <span>SmartKit <span class="brand-light">Tools</span></span>
+
+    </a>
+
+    <nav aria-label="Main navigation">
+
+      <a href="#tools">All tools</a>
+
+      <a href="#about">About</a>
+
+    </nav>
+
+  </header>
+
+  <main>
+
+    <section class="hero">
+
+      <span class="eyebrow">FREE ONLINE TOOLS</span>
+
+      <h1>Everyday tasks.<br><span>Made simpler.</span></h1>
+
+      <p>
+
+        Simple, useful online tools to help you calculate,
+
+        convert, and get things done.
+
+      </p>
+
+      <a class="primary-button" href="#tools">Explore our tools ↓</a>
+
+    </section>
+
+    <section class="tools-section" id="tools">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="eyebrow">OUR TOOLKIT</span>
+
+          <h2>Start with a calculator</h2>
+
+        </div>
+
+        <span class="tool-count">01 tool available</span>
+
+      </div>
+
+      <div class="tool-card">
+
+        <div class="tool-icon" aria-hidden="true">%</div>
+
+        <h3>Percentage Calculator</h3>
+
+        <p class="tool-description">
+
+          Calculate a percentage of any number in seconds.
+
+        </p>
+
+        <form id="percentage-form">
+
+          <div class="field">
+
+            <label for="percentage">Percentage (%)</label>
+
+            <input
+
+              id="percentage"
+
+              type="number"
+
+              min="0"
+
+              max="1000000"
+
+              step="any"
+
+              placeholder="e.g. 15"
+
+              required
+
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label for="amount">Number or amount</label>
+
+            <input
+
+              id="amount"
+
+              type="number"
+
+              min="-1000000000000"
+
+              max="1000000000000"
+
+              step="any"
+
+              placeholder="e.g. 80000"
+
+              required
+
+            >
+
+          </div>
+
+          <button class="calculate-button" type="submit">
+
+            Calculate percentage
+
+          </button>
+
+        </form>
+
+        <div
+
+          id="result"
+
+          class="result"
+
+          role="status"
+
+          aria-live="polite"
+
+          hidden
+
+        >
+
+          <span class="result-label">Your result</span>
+
+          <output id="result-value"></output>
+
+          <button id="copy-result" class="copy-button" type="button">
+
+            Copy result
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+    <section class="tool-card cgpa-tool" id="cgpa-calculator">
+
+  <section class="tool-card cgpa-tool" id="cgpa-calculator">
+
+<section class="tool-card cgpa-tool" id="cgpa-calculator">
+
+  <h2>GPA & CGPA Calculator</h2>
+
+  <p>Calculate your semester GPA, track your level results and check your GPA against your school portal.</p>
+
+  <h3>1. Semester GPA Calculator</h3>
+
+  <p>Enter the score, units and GP shown for each course on your portal.</p>
+
+  <div class="cgpa-table-wrap">
+
+    <table class="cgpa-table">
+
+      <thead>
+
+        <tr>
+
+          <th>Course</th>
+
+          <th>Score</th>
+
+          <th>Units</th>
+
+          <th>GP</th>
+
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="semester-courses"></tbody>
+
+    </table>
+
+  </div>
+
+  <div class="cgpa-actions">
+
+    <button type="button" id="add-course">+ Add course</button>
+
+    <button type="button" id="calculate-semester">Calculate GPA</button>
+
+    <button type="button" id="reset-semester">Reset courses</button>
+
+  </div>
+
+  <div class="cgpa-result" id="semester-result" aria-live="polite">
+
+    Your semester result will appear here.
+
+  </div>
+
+  <div class="cgpa-transfer">
+
+    <h4>Transfer semester totals to CGPA</h4>
+
+    <label for="transfer-level">Academic level</label>
+
+    <select id="transfer-level">
+
+      <option value="100">100 Level</option>
+
+      <option value="200">200 Level</option>
+
+      <option value="300">300 Level</option>
+
+      <option value="400">400 Level</option>
+
+      <option value="500">500 Level</option>
+
+      <option value="600">600 Level</option>
+
+      <option value="700">700 Level</option>
+
+    </select>
+
+    <label for="transfer-semester">Semester</label>
+
+    <select id="transfer-semester">
+
+      <option value="1">First semester</option>
+
+      <option value="2">Second semester</option>
+
+    </select>
+
+    <button type="button" id="transfer-totals">
+
+      Use these totals in CGPA calculator
+
+    </button>
+
+  </div>
+
+  <hr>
+
+  <h3>2. Level & Cumulative CGPA</h3>
+
+  <p>Enter semester totals manually or transfer them from the calculator above.</p>
+
+  <div class="cgpa-table-wrap">
+
+    <table class="cgpa-table">
+
+      <thead>
+
+        <tr>
+
+          <th>Level</th>
+
+          <th>Semester</th>
+
+          <th>Total units</th>
+
+          <th>Total GP</th>
+
+          <th>Portal GPA (optional)</th>
+
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="cgpa-semesters"></tbody>
+
+    </table>
+
+  </div>
+
+  <div class="cgpa-actions">
+
+    <button type="button" id="cgpa-add-semester">+ Add semester</button>
+
+    <button type="button" id="cgpa-calculate">Calculate CGPA</button>
+
+    <button type="button" id="cgpa-reset">Reset levels</button>
+
+  </div>
+
+  <div class="cgpa-result" id="cgpa-result" aria-live="polite">
+
+    Your cumulative result will appear here.
+
+  </div>
+
+  <div id="cgpa-level-results"></div>
+
+  <p class="cgpa-note">
+
+    Enter the weighted GP values shown on your portal. Check your university's rules
+
+    for official grading and CGPA calculations.
+
+  </p>
+
+</section>
+<!-- Word & Character Counter -->
+
+<section class="tool-section word-counter" id="word-counter">
+
+  <h2>Word & Character Counter</h2>
+
+  <p>
+
+    Count words, characters, sentences, and paragraphs instantly.
+
+  </p>
+
+  <textarea
+
+    id="word-input"
+
+    placeholder="Type or paste your text here..."
+
+    rows="8"
+
+    aria-label="Enter text to count"
+
+  ></textarea>
+
+  <div class="word-stats">
+
+    <div class="word-stat">
+
+      <span id="word-count">0</span>
+
+      <p>Words</p>
+
+    </div>
+
+    <div class="word-stat">
+
+      <span id="character-count">0</span>
+
+      <p>Characters</p>
+
+    </div>
+
+    <div class="word-stat">
+
+      <span id="character-no-spaces">0</span>
+
+      <p>Without spaces</p>
+
+    </div>
+
+    <div class="word-stat">
+
+      <span id="sentence-count">0</span>
+
+      <p>Sentences</p>
+
+    </div>
+
+    <div class="word-stat">
+
+      <span id="paragraph-count">0</span>
+
+      <p>Paragraphs</p>
+
+    </div>
+
+    <div class="word-stat">
+
+      <span id="reading-time">0 min</span>
+
+      <p>Reading time</p>
+
+    </div>
+
+  </div>
+
+  <div class="word-actions">
+
+    <button type="button" id="copy-text">Copy Text</button>
+
+    <button type="button" id="clear-text">Clear</button>
+
+  </div>
+
+  <p id="word-message" role="status" aria-live="polite"></p>
+
+</section>
+<section id="image-compressor" class="image-compressor">
+
+    <div class="compressor-heading">
+
+        <h2>Image Compressor</h2>
+
+        <p>Reduce image file sizes for websites, applications, and sharing.</p>
+
+    </div>
+
+    <div id="image-drop-area" class="image-upload">
+
+        <div class="upload-icon">📷</div>
+
+        <h3>Choose an image to compress</h3>
+
+        <p>Click below or drag and drop an image here.</p>
+
+        <input
+
+            type="file"
+
+            id="image-file"
+
+            accept="image/jpeg,image/png,image/webp"
+
+        />
+
+        <p class="upload-limit">JPG, PNG or WebP · Maximum 10 MB</p>
+
+    </div>
+
+    <p id="image-message" class="image-message" role="status" aria-live="polite"></p>
+
+    <div class="compressor-settings">
+
+        <div class="compressor-field">
+
+            <label for="compression-mode">Compression mode</label>
+
+            <select id="compression-mode">
+
+                <option value="quality">Compress by quality</option>
+
+                <option value="target">Compress to target size</option>
+
+            </select>
+
+        </div>
+
+        <div id="target-size-options" class="compressor-field" hidden>
+
+            <label for="target-size-value">Target maximum size</label>
+
+            <select id="target-size-value">
+
+                <option value="20">20 KB</option>
+
+                <option value="50">50 KB</option>
+
+                <option value="100" selected>100 KB</option>
+
+                <option value="200">200 KB</option>
+
+                <option value="500">500 KB</option>
+
+                <option value="custom">Custom size</option>
+
+            </select>
+
+            <div id="custom-size-container" hidden>
+
+                <label for="custom-target-kb">Custom size in KB</label>
+
+                <input
+
+                    type="number"
+
+                    id="custom-target-kb"
+
+                    min="5"
+
+                    max="10000"
+
+                    value="100"
+
+                />
+
+            </div>
+
+            <p class="field-note">
+
+                The compressor will try to meet your target.
+
+                Very small targets may not be possible without reducing image dimensions.
+
+            </p>
+
+        </div>
+
+        <div class="compressor-field">
+
+            <label for="image-quality">
+
+                Image quality: <span id="quality-value">80%</span>
+
+            </label>
+
+            <input
+
+                type="range"
+
+                id="image-quality"
+
+                min="10"
+
+                max="100"
+
+                value="80"
+
+            />
+
+        </div>
+
+        <div class="compressor-field">
+
+            <label for="image-width">Maximum image width</label>
+
+            <select id="image-width">
+
+                <option value="original">Keep original dimensions</option>
+
+                <option value="1920">1920 pixels</option>
+
+                <option value="1280">1280 pixels</option>
+
+                <option value="800">800 pixels</option>
+
+                <option value="640">640 pixels</option>
+
+            </select>
+
+        </div>
+
+        <div class="compressor-field">
+
+            <label for="image-format">Output format</label>
+
+            <select id="image-format">
+
+                <option value="image/jpeg">JPEG</option>
+
+                <option value="image/webp">WebP</option>
+
+                <option value="image/png">PNG</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <button type="button" id="compress-image-btn" class="compress-button">
+
+        Compress Image
+
+    </button>
+
+    <div id="image-results" class="image-results" hidden>
+
+        <h3>Your compression results</h3>
+
+        <div class="image-preview-grid">
+
+            <div class="preview-card">
+
+                <h4>Original image</h4>
+
+                <img id="original-preview" alt="Original image preview" />
+
+                <p id="original-details">—</p>
+
+            </div>
+
+            <div class="preview-card">
+
+                <h4>Compressed image</h4>
+
+                <img id="compressed-preview" alt="Compressed image preview" />
+
+                <p id="compressed-details">—</p>
+
+            </div>
+
+        </div>
+
+        <div class="compression-summary">
+
+            <p>Original size: <strong id="original-size">—</strong></p>
+
+            <p>New size: <strong id="compressed-size">—</strong></p>
+
+            <p>Size change: <strong id="size-change">—</strong></p>
+
+        </div>
+
+        <a id="download-compressed" class="download-compressed" href="#" download>
+
+            Download Compressed Image
+
+        </a>
+
+    </div>
+
+</section>
+<section id="passport-resizer" class="passport-tool">
+
+    <div class="passport-heading">
+
+        <h2>Passport Photo Resizer</h2>
+
+        <p>Resize and crop a photo to common passport and ID photo dimensions.</p>
+
+    </div>
+
+    <div class="passport-upload">
+
+        <label for="passport-file">Choose your photo</label>
+
+        <input
+
+            type="file"
+
+            id="passport-file"
+
+            accept="image/jpeg,image/png,image/webp"
+
+        />
+
+        <p class="passport-note">JPG, PNG or WebP. Maximum file size: 10 MB.</p>
+
+    </div>
+
+    <div class="passport-controls">
+
+        <div>
+
+            <label for="passport-preset">Photo size preset</label>
+
+            <select id="passport-preset">
+
+                <option value="35x45">35 × 45 mm (common passport size)</option>
+
+                <option value="2x2">2 × 2 inches (US-style photo)</option>
+
+                <option value="600x600">600 × 600 pixels (square photo)</option>
+
+                <option value="custom">Custom dimensions</option>
+
+            </select>
+
+        </div>
+
+        <div id="passport-custom-fields" hidden>
+
+            <label for="passport-custom-width">Width in pixels</label>
+
+            <input
+
+                type="number"
+
+                id="passport-custom-width"
+
+                min="50"
+
+                max="3000"
+
+                value="413"
+
+            />
+
+            <label for="passport-custom-height">Height in pixels</label>
+
+            <input
+
+                type="number"
+
+                id="passport-custom-height"
+
+                min="50"
+
+                max="3000"
+
+                value="531"
+
+            />
+
+        </div>
+
+        <div>
+
+            <label for="passport-background">Canvas background</label>
+
+            <select id="passport-background">
+
+                <option value="white">White</option>
+
+                <option value="lightgray">Light gray</option>
+
+                <option value="keep">Keep photo background</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <button type="button" id="passport-preview-btn" class="passport-button">
+
+        Create Passport Photo
+
+    </button>
+
+    <p id="passport-message" class="passport-message" role="status" aria-live="polite"></p>
+
+    <div id="passport-results" class="passport-results" hidden>
+
+        <h3>Your resized photo</h3>
+
+        <canvas id="passport-canvas"></canvas>
+
+        <p id="passport-dimensions"></p>
+
+        <p class="passport-note">
+
+            This tool crops from the center of your photo. Check the crop carefully
+
+            and make sure your photo meets the requirements of the organisation
+
+            you're applying to.
+
+        </p>
+
+        <button type="button" id="passport-download" class="passport-button">
+
+            Download Passport Photo
+
+        </button>
+
+    </div>
+
+</section>
+</section>
+
+    <section class="about-section" id="about">
+
+      <h2>Useful tools, without the hassle.</h2>
+
+      <p>
+
+        SmartKit Tools is being built to make everyday calculations
+
+        quick, simple, and accessible on desktop and mobile devices.
+
+      </p>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+
+    <a class="brand footer-brand" href="index.html">SmartKit Tools</a>
+
+    <p>Simple tools. Useful results.</p>
+
+    <p>© <span id="year"></span> SmartKit Tools</p>
+
+  </footer>
+
+</body>
+
+</html>
