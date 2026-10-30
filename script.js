@@ -760,7 +760,7 @@ download.download = `smartkit-compressed.${extension}`;
 results.hidden = false;
 }
 })();
-/* SmartKit Tools — Passport Photo Resizer */
+/* SmartKit Tools — Improved Passport Photo Resizer */
 (() => {
 const $ = (id) => document.getElementById(id);
 
@@ -781,49 +781,90 @@ if (
 !customHeight || !background || !createButton || !message ||
 !results || !canvas || !downloadButton
 ) {
-console.error("Passport Photo Resizer: required HTML elements are missing.");
+console.error("Passport Photo Resizer: missing HTML elements.");
 return;
 }
 
+let currentImage = null;
 let downloadUrl = null;
+let offsetX = 50;
+let offsetY = 35;
+
+// Add positioning controls if they are not already present.
+let controls = $("passport-position-controls");
+
+if (!controls) {
+controls = document.createElement("div");
+controls.id = "passport-position-controls";
+controls.innerHTML = `
+<label for="passport-position-x">Horizontal position</label>
+<input id="passport-position-x" type="range" min="0" max="100" value="50">
+
+<label for="passport-position-y">Vertical position</label>
+<input id="passport-position-y" type="range" min="0" max="100" value="35">
+
+<p>Adjust the photo until the face is properly positioned.</p>
+`;
+
+createButton.parentNode.insertBefore(controls, createButton);
+}
+
+const positionX = $("passport-position-x");
+const positionY = $("passport-position-y");
+
+positionX.addEventListener("input", () => {
+offsetX = Number(positionX.value);
+});
+
+positionY.addEventListener("input", () => {
+offsetY = Number(positionY.value);
+});
 
 preset.addEventListener("change", () => {
 customFields.hidden = preset.value !== "custom";
 results.hidden = true;
-message.textContent = "";
 });
 
 fileInput.addEventListener("change", () => {
 results.hidden = true;
+currentImage = null;
 
 const file = fileInput.files[0];
-if (!file) {
-message.textContent = "";
-return;
-}
+if (!file) return;
 
-const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-
-if (!allowedTypes.includes(file.type)) {
-fileInput.value = "";
+if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
 message.textContent = "Please choose a JPG, PNG, or WebP image.";
+fileInput.value = "";
 return;
 }
 
 if (file.size > 10 * 1024 * 1024) {
-fileInput.value = "";
 message.textContent = "Please choose an image smaller than 10 MB.";
+fileInput.value = "";
 return;
 }
 
-message.textContent = "Photo selected. Choose your size and create your photo.";
+const url = URL.createObjectURL(file);
+const image = new Image();
+
+image.onload = () => {
+URL.revokeObjectURL(url);
+currentImage = image;
+message.textContent =
+"Photo selected. Adjust the positioning and create your passport photo.";
+};
+
+image.onerror = () => {
+URL.revokeObjectURL(url);
+message.textContent = "Could not open this image. Try another photo.";
+};
+
+image.src = url;
 });
 
-createButton.addEventListener("click", async () => {
-const file = fileInput.files[0];
-
-if (!file) {
-message.textContent = "Please choose a photo first.";
+createButton.addEventListener("click", () => {
+if (!currentImage) {
+message.textContent = "Please select a photo first.";
 return;
 }
 
@@ -831,13 +872,9 @@ let width;
 let height;
 
 if (preset.value === "35x45") {
-// Approximate pixel dimensions at 300 DPI.
 width = 413;
 height = 531;
-} else if (preset.value === "2x2") {
-width = 600;
-height = 600;
-} else if (preset.value === "600x600") {
+} else if (preset.value === "2x2" || preset.value === "600x600") {
 width = 600;
 height = 600;
 } else {
@@ -845,60 +882,50 @@ width = Number(customWidth.value);
 height = Number(customHeight.value);
 
 if (
-!Number.isInteger(width) ||
-!Number.isInteger(height) ||
+!Number.isInteger(width) || !Number.isInteger(height) ||
 width < 50 || width > 3000 ||
 height < 50 || height > 3000
 ) {
 message.textContent =
-"Enter valid width and height values between 50 and 3000 pixels.";
+"Enter valid dimensions between 50 and 3000 pixels.";
 return;
 }
 }
 
-createButton.disabled = true;
-createButton.textContent = "Creating Photo...";
-
 try {
-const image = await loadImage(file);
-
 canvas.width = width;
 canvas.height = height;
 
-const context = canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
+if (!ctx) throw new Error("Canvas is not supported by your browser.");
 
-if (!context) {
-throw new Error("Your browser could not create the photo.");
-}
+// Background colour. Transparent images will show this background.
+ctx.fillStyle =
+background.value === "lightgray" ? "#eeeeee" : "#ffffff";
+ctx.fillRect(0, 0, width, height);
 
-if (background.value === "white") {
-context.fillStyle = "#ffffff";
-context.fillRect(0, 0, width, height);
-} else if (background.value === "lightgray") {
-context.fillStyle = "#eeeeee";
-context.fillRect(0, 0, width, height);
-}
-
-// Center-crop to the selected aspect ratio.
+const image = currentImage;
 const sourceRatio = image.naturalWidth / image.naturalHeight;
 const targetRatio = width / height;
 
-let sourceX = 0;
-let sourceY = 0;
-let sourceWidth = image.naturalWidth;
-let sourceHeight = image.naturalHeight;
+let cropWidth = image.naturalWidth;
+let cropHeight = image.naturalHeight;
 
 if (sourceRatio > targetRatio) {
-sourceWidth = image.naturalHeight * targetRatio;
-sourceX = (image.naturalWidth - sourceWidth) / 2;
-} else if (sourceRatio < targetRatio) {
-sourceHeight = image.naturalWidth / targetRatio;
-sourceY = (image.naturalHeight - sourceHeight) / 2;
+cropWidth = image.naturalHeight * targetRatio;
+} else {
+cropHeight = image.naturalWidth / targetRatio;
 }
 
-context.drawImage(
+const maxX = image.naturalWidth - cropWidth;
+const maxY = image.naturalHeight - cropHeight;
+
+const sourceX = maxX * (offsetX / 100);
+const sourceY = maxY * (offsetY / 100);
+
+ctx.drawImage(
 image,
-sourceX, sourceY, sourceWidth, sourceHeight,
+sourceX, sourceY, cropWidth, cropHeight,
 0, 0, width, height
 );
 
@@ -907,14 +934,9 @@ $("passport-dimensions").textContent =
 
 results.hidden = false;
 message.textContent =
-"Photo created. Check the crop carefully before downloading.";
+"Photo created. Check the face position and crop before downloading.";
 } catch (error) {
-console.error("Passport photo creation failed:", error);
-message.textContent =
-error.message || "Could not create the photo. Please try another image.";
-} finally {
-createButton.disabled = false;
-createButton.textContent = "Create Passport Photo";
+message.textContent = error.message || "Could not create the photo.";
 }
 });
 
@@ -926,7 +948,7 @@ return;
 
 canvas.toBlob((blob) => {
 if (!blob) {
-message.textContent = "Could not download the photo. Please try again.";
+message.textContent = "Could not download the photo.";
 return;
 }
 
@@ -936,30 +958,9 @@ downloadUrl = URL.createObjectURL(blob);
 const link = document.createElement("a");
 link.href = downloadUrl;
 link.download = "smartkit-passport-photo.jpg";
-document.body.appendChild(link);
 link.click();
-link.remove();
 
 message.textContent = "Your photo download has started.";
 }, "image/jpeg", 0.95);
 });
-
-function loadImage(file) {
-return new Promise((resolve, reject) => {
-const url = URL.createObjectURL(file);
-const image = new Image();
-
-image.onload = () => {
-URL.revokeObjectURL(url);
-resolve(image);
-};
-
-image.onerror = () => {
-URL.revokeObjectURL(url);
-reject(new Error("Could not open this image. Please choose another."));
-};
-
-image.src = url;
-});
-}
 })();

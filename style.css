@@ -1078,3 +1078,140 @@ padding: 16px;
 grid-template-columns: 1fr;
 }
 }
+/* SmartKit Tools layout improvement */
+#tools {
+width: 100%;
+max-width: 1200px;
+margin-left: auto;
+margin-right: auto;
+box-sizing: border-box;
+}
+
+#tools > .tool-card,
+#tools > .cgpa-tool {
+width: 100%;
+max-width: 100%;
+box-sizing: border-box;
+margin-left: 0;
+margin-right: 0;
+}
+
+
+/* =========================================
+SMARTKIT TOOLS — UNIFIED LAYOUT OVERRIDES
+========================================= */
+
+* {
+box-sizing: border-box;
+}
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+margin: 0;
+overflow-x: hidden;
+}
+
+#tools,
+.tools-section {
+width: 100%;
+max-width: 1200px;
+margin-left: auto;
+margin-right: auto;
+padding-left: 18px;
+padding-right: 18px;
+}
+
+/* Keep the tools heading neat */
+.tools-section .section-heading {
+display: flex;
+align-items: center;
+justify-content: space-between;
+flex-wrap: wrap;
+gap: 12px;
+margin-bottom: 24px;
+}
+
+/* Consistent tool card appearance */
+.tool-card,
+.cgpa-tool,
+#tools > .tool-card,
+#tools > .cgpa-tool {
+display: block;
+width: 100%;
+max-width: 100%;
+min-width: 0;
+margin: 0 0 24px;
+padding: 24px;
+float: none;
+position: static;
+border-radius: 16px;
+}
+
+/* Keep card contents inside their cards */
+.tool-card img,
+.tool-card input,
+.tool-card select,
+.tool-card textarea,
+.tool-card button,
+.cgpa-tool input,
+.cgpa-tool select,
+.cgpa-tool textarea,
+.cgpa-tool button {
+max-width: 100%;
+}
+
+.tool-card input,
+.tool-card select,
+.tool-card textarea,
+.cgpa-tool input,
+.cgpa-tool select,
+.cgpa-tool textarea {
+box-sizing: border-box;
+}
+
+/* Make forms easier to use */
+.tool-card form,
+.cgpa-tool form {
+width: 100%;
+max-width: 100%;
+}
+
+/* Keep wide GPA tables scrollable on small screens */
+.cgpa-tool .cgpa-table-wrap {
+width: 100%;
+max-width: 100%;
+overflow-x: auto;
+}
+
+/* Images should stay within the available space */
+.tool-card canvas,
+.tool-card img,
+.cgpa-tool canvas,
+.cgpa-tool img {
+max-width: 100%;
+height: auto;
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+#tools,
+.tools-section {
+padding-left: 12px;
+padding-right: 12px;
+}
+
+.tool-card,
+.cgpa-tool,
+#tools > .tool-card,
+#tools > .cgpa-tool {
+padding: 16px;
+margin-bottom: 18px;
+}
+
+.tools-section .section-heading {
+align-items: flex-start;
+}
+}
